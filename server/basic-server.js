@@ -14,7 +14,10 @@ var port = 3000;
 // special address that always refers to localhost.
 var ip = '127.0.0.1';
 
-
+var handleRequest = (request, response) => {
+  console.log(request.url);
+  return response.end('Node JS server properly setup on: ' + request.url);
+};
 
 // We use node's http module to create a server.
 //
@@ -24,7 +27,12 @@ var ip = '127.0.0.1';
 // After creating the server, we will tell it to listen on the given port and IP. */
 var server = http.createServer(handleRequest);
 console.log('Listening on http://' + ip + ':' + port);
-server.listen(port, ip);
+server.listen(port, (ip) => {
+  if (ip) {
+    return console.log('Unable to setup server', err);
+  }
+  console.log(`server is listening on ${port}`);
+});
 
 // To start this server, run:
 //
