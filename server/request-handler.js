@@ -77,9 +77,7 @@ exports.requestHandler = function(request, response) {
     var post = querystring.parse(body);
     console.log(post);
     response.writeHead(statusCode, headers);
-    response.write(request.url);
     response.end('Hello, World!');
-    console.log('Listening on port 3000');
   });
 
 };
