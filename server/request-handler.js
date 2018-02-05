@@ -34,7 +34,7 @@ var defaultCorsHeaders = {
   'access-control-max-age': 10 // Seconds.
 };
 
-exports.server = http.createServer().listen(3000);
+//exports.server = http.createServer().listen(3000);
 
 exports.requestHandler = function(request, response) {
   // Request and Response come from node's http module.
@@ -84,4 +84,4 @@ exports.requestHandler = function(request, response) {
 
 };
 
-exports.server.on('request', requestHandler);
+//exports.server.on('request', exports.requestHandler);
