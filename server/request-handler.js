@@ -15,6 +15,9 @@ var http = require('http');
 var url = require('url');
 var querystring = require('querystring');
 
+
+//modules to be exported.
+var exports = module.exports = {};
 // These headers will allow Cross-Origin Resource Sharing (CORS).
 // This code allows this server to talk to websites that
 // are on different domains, for instance, your chat client.
@@ -31,9 +34,9 @@ var defaultCorsHeaders = {
   'access-control-max-age': 10 // Seconds.
 };
 
-var server = http.createServer().listen(3000);
+exports.server = http.createServer().listen(3000);
 
-var requestHandler = function(request, response) {
+exports.requestHandler = function(request, response) {
   // Request and Response come from node's http module.
   //
   // They include information about both the incoming request, such as
@@ -76,9 +79,9 @@ var requestHandler = function(request, response) {
     response.writeHead(statusCode, headers);
     response.write(request.url);
     response.end('Hello, World!');
+    console.log('Listening on port 3000');
   });
 
 };
 
-server.on('request', requestHandler);
-console.log('Listening on port 3000');
+exports.server.on('request', requestHandler);
