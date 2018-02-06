@@ -30,7 +30,6 @@ var fileSender = function(pathname, response, contentType) {
 exports.requestHandler = function(request, response) {
 
   var headers = defaultCorsHeaders;
-  headers['Content-Type'] = 'text/plain';
   var statusCode = 200;
 
   console.log('Serving request type ' + request.method + ' for url ' + request.url);
@@ -54,7 +53,6 @@ exports.requestHandler = function(request, response) {
   }
   if (pathname === 'client/chatterbox/classes/messages' && request.method === 'OPTIONS') {
     response.writeHead(200, 'OK', headers);
-    fileSender('messages.json', response, 'application/json');
     return;
   }
   
@@ -94,7 +92,7 @@ exports.requestHandler = function(request, response) {
   }
   
   //read file
-  fileSender(pathname, response, 'text/html');
+  fileSender(pathname, response, '');
   return;
   
   
