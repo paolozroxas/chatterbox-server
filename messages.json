@@ -1,8 +1,10 @@
-{"results": [{"objectId": 1,
-  "username": "nyah",
-  "text": "hey what's up",
-  "roomname": "lobby"},
-{"objectId": 2,
-  "username": "paolo",
-  "text": "how's it going?",
-  "roomname": "lobby"}]}
+{"results": 
+  [
+    {"username": "greg",
+    "text": "to be or not to be",
+    "roomname": "lobby"},
+    {"username": "adam",
+    "text": "that is the question",
+    "roomname": "lobby"}
+  ]
+}

@@ -14,7 +14,7 @@ var defaultCorsHeaders = {
 };
 
 var fileSender = function(pathname, response, contentType) {
-  fs.readFile(pathname, function (err, data) {
+  var oldMessage = fs.readFile(pathname, function (err, data) {
     if (err) {
       console.log('error getting ', pathname);
       response.statusCode = 500;
@@ -46,12 +46,35 @@ exports.requestHandler = function(request, response) {
   
   //CASE: url is {base}/chatterbox/classes/messages. GET request
   if (pathname === 'client/chatterbox/classes/messages' && request.method === 'GET') {
-    
     fileSender('messages.json', response, 'application/json');
     return;
-    
-  }
-  if (pathname === 'client/chatterbox/classes/messages' && request.method === 'OPTIONS') {
+  } else if (pathname === 'client/chatterbox/classes/messages' && request.method === 'OPTIONS') {
+    response.writeHead(200, 'OK', headers);
+    return;
+  } else if (pathname === 'client/chatterbox/classes/messages' && request.method === 'POST') {
+    var body = '';
+    request.on('data', (chunk) => { body += chunk;});
+
+    request.on('end', function() {
+      try {
+        var post = querystring.parse(body);
+        console.log('post received');
+        //handle data here:
+        fs.readFile('messages.json', (err, data) => {
+          if (err) throw err;
+          let messages = JSON.parse(data);
+          post.objectId = messages.results.length;
+          messages.results.push(post);
+          fs.writeFile('messages.json', JSON.stringify(messages), (err) => {
+            if (err) throw err;
+            console.log('message saved to database');
+          });
+        });
+        
+      } catch(e) {
+        console.error(e.message);
+      }
+    }).on('error', (e) => { console.error(`Got error: ${e.message}`); });
     response.writeHead(200, 'OK', headers);
     return;
   }
@@ -60,16 +83,7 @@ exports.requestHandler = function(request, response) {
   
   
   
-  // if (request.method === 'POST') {
-  //   var body = '';
-  //   request.on('data', function() {
-  //     body += data;
-  //   });
 
-  //   request.on('end', function() {
-  //     var post = querystring.parse(body);
-  //   });
-  // }
   
   
   //CASE: static file serving
