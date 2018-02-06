@@ -53,27 +53,26 @@ exports.requestHandler = function(request, response) {
     }
   });
 
-  if (pathname === 'client/') {
+  
     
-    //check if is a directory
-    if (fs.statSync(pathname).isDirectory()) {
-      pathname = 'client/index.html';
-    }
-    
-    //read file
-    fs.readFile(pathname, function (err, data) {
-      if (err) {
-        console.log('error getting ', pathname);
-        response.statusCode = 500;
-        response.end('error getting ', pathname);
-      } else {
-        console.log('success getting ', pathname);
-        response.setHeader('Content-type', 'text/html');
-        response.end(data);
-      }
-    });
-    
+  //check if is a directory
+  if (fs.statSync(pathname).isDirectory()) {
+    pathname = 'client/index.html';
   }
+  
+  //read file
+  fs.readFile(pathname, function (err, data) {
+    if (err) {
+      console.log('error getting ', pathname);
+      response.statusCode = 500;
+      response.end('error getting ', pathname);
+    } else {
+      console.log('success getting ', pathname);
+      response.setHeader('Content-type', 'text/html');
+      response.end(data);
+    }
+  });
+    
 };
 
 
