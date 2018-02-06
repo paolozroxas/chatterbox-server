@@ -13,6 +13,20 @@ var defaultCorsHeaders = {
   'access-control-max-age': 10 // Seconds.
 };
 
+var fileSender = function(pathname, response, contentType) {
+  fs.readFile(pathname, function (err, data) {
+    if (err) {
+      console.log('error getting ', pathname);
+      response.statusCode = 500;
+      response.end('error getting ', pathname);
+    } else {
+      console.log('success getting ', pathname);
+      response.setHeader('Content-type', contentType);
+      response.end(data);
+    }
+  });
+};
+
 exports.requestHandler = function(request, response) {
 
   var headers = defaultCorsHeaders;
@@ -22,6 +36,25 @@ exports.requestHandler = function(request, response) {
   console.log('Serving request type ' + request.method + ' for url ' + request.url);
   
   var parsedUrl = url.parse(request.url);
+  
+  var pathname = `client${parsedUrl.pathname}`;
+  
+  if (pathname === 'client/chatterbox') {
+    pathname = 'client/';
+  }
+  
+  console.log('the pathname is ', pathname);
+  
+  //CASE: url is {base}/chatterbox/classes/messages. GET request
+  if (pathname === 'client/chatterbox/classes/messages' && request.method === 'GET') {
+    
+    fileSender('messages.json', response, 'application/json');
+    return;
+    
+  }
+  
+  
+  
   
   
   // if (request.method === 'POST') {
@@ -34,13 +67,10 @@ exports.requestHandler = function(request, response) {
   //     var post = querystring.parse(body);
   //   });
   // }
-  var pathname = `client${parsedUrl.pathname}`;
   
-  if (pathname === 'client/chatterbox') {
-    pathname = 'client/';
-  }
   
-  console.log('the pathname is ', pathname);
+  //CASE: static file serving
+
 
   //check if file exists
   fs.exists(pathname, function (exist) {
@@ -52,26 +82,18 @@ exports.requestHandler = function(request, response) {
       console.log('the file exists!', pathname);
     }
   });
-
   
-    
   //check if is a directory
   if (fs.statSync(pathname).isDirectory()) {
     pathname = 'client/index.html';
   }
   
   //read file
-  fs.readFile(pathname, function (err, data) {
-    if (err) {
-      console.log('error getting ', pathname);
-      response.statusCode = 500;
-      response.end('error getting ', pathname);
-    } else {
-      console.log('success getting ', pathname);
-      response.setHeader('Content-type', 'text/html');
-      response.end(data);
-    }
-  });
+  fileSender(pathname, response, 'text/html');
+  return;
+  
+  
+
     
 };
 
