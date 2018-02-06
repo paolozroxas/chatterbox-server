@@ -30,8 +30,6 @@ var ip = '127.0.0.1';
 console.log('Listening on http://' + ip + ':' + port);
 var server = http.createServer(handleRequest.requestHandler).listen(port, ip);
 
-console.log('Server is running at http://', ip, ':', port);
-
 // To start this server, run:
 //
 //   node basic-server.js

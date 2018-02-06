@@ -52,6 +52,11 @@ exports.requestHandler = function(request, response) {
     return;
     
   }
+  if (pathname === 'client/chatterbox/classes/messages' && request.method === 'OPTIONS') {
+    response.writeHead(200, 'OK', headers);
+    fileSender('messages.json', response, 'application/json');
+    return;
+  }
   
   
   
