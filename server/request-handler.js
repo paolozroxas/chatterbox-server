@@ -38,27 +38,24 @@ exports.requestHandler = function(request, response) {
   
   var pathname = `client${parsedUrl.pathname}`;
   
-  if (pathname === 'client/chatterbox') {
-    pathname = 'client/';
-  }
-  
   console.log('the pathname is ', pathname);
   
-  //CASE: url is {base}/chatterbox/classes/messages. GET request
-  if (pathname === 'client/chatterbox/classes/messages' && request.method === 'GET') {
+  //CASE: url is {base}/classes/messages. GET request
+  if (pathname === 'client/classes/messages' && request.method === 'GET') {
     fileSender('messages.json', response, 'application/json');
     return;
-  } else if (pathname === 'client/chatterbox/classes/messages' && request.method === 'OPTIONS') {
+  } else if (pathname === 'client/classes/messages' && request.method === 'OPTIONS') {
     response.writeHead(200, 'OK', headers);
     return;
-  } else if (pathname === 'client/chatterbox/classes/messages' && request.method === 'POST') {
+  } else if (pathname === 'client/classes/messages' && request.method === 'POST') {
     var body = '';
     request.on('data', (chunk) => {
       body += chunk;
-      response.writeHead(200, 'OK', headers);
     });
 
     request.on('end', function() {
+      response.writeHead(201, 'Created', headers);
+      response.end('OK, post received');
       try {
         var post = querystring.parse(body);
         console.log('post received');
