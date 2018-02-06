@@ -53,7 +53,10 @@ exports.requestHandler = function(request, response) {
     return;
   } else if (pathname === 'client/chatterbox/classes/messages' && request.method === 'POST') {
     var body = '';
-    request.on('data', (chunk) => { body += chunk;});
+    request.on('data', (chunk) => {
+      body += chunk;
+      response.writeHead(200, 'OK', headers);
+    });
 
     request.on('end', function() {
       try {
@@ -61,13 +64,12 @@ exports.requestHandler = function(request, response) {
         console.log('post received');
         //handle data here:
         fs.readFile('messages.json', (err, data) => {
-          if (err) throw err;
+          //if (err) throw err;
           let messages = JSON.parse(data);
           post.objectId = messages.results.length;
           messages.results.push(post);
           fs.writeFile('messages.json', JSON.stringify(messages), (err) => {
-            if (err) throw err;
-            console.log('message saved to database');
+            //if (err) throw err;
           });
         });
         
@@ -75,7 +77,6 @@ exports.requestHandler = function(request, response) {
         console.error(e.message);
       }
     }).on('error', (e) => { console.error(`Got error: ${e.message}`); });
-    response.writeHead(200, 'OK', headers);
     return;
   }
   

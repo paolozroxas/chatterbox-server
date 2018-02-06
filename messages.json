@@ -1,10 +1,1 @@
-{"results": 
-  [
-    {"username": "greg",
-    "text": "to be or not to be",
-    "roomname": "lobby"},
-    {"username": "adam",
-    "text": "that is the question",
-    "roomname": "lobby"}
-  ]
-}
+{"results":[{"username":"greg","text":"to be or not to be","roomname":"lobby","objectId":0},{"username":"adam","text":"that is the question","roomname":"lobby","objectId":1},{"username":"hello","text":"this is a post request test hello there","roomname":"lobby","objectId":2},{"username":"hello","text":"hi friend","roomname":"lobby","objectId":3},{"username":"hello","text":"here's another post","roomname":"lobby","objectId":4},{"username":"hello","text":"yet another post","roomname":"lobby","objectId":5},{"username":"hello","text":"sending a post","roomname":"lobby","objectId":6},{"username":"hello","text":"another post","roomname":"lobby","objectId":7},{"username":"hello","text":"does this work?","roomname":"lobby","objectId":8}]}
